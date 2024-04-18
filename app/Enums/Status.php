@@ -11,13 +11,15 @@ enum Status: string implements HasLabel, HasColor, HasIcon
     case PENDING = 'pending';
     case REJECTED = 'rejected';
     case APPROVED = 'approved';
+    case DRAFT = 'draft';
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::PENDING => 'Pending',
             self::REJECTED => 'Rejected',
-            self::APPROVED => 'Approved'
+            self::APPROVED => 'Approved',
+            self::DRAFT => 'Draft',
         };
     }
 
@@ -26,7 +28,8 @@ enum Status: string implements HasLabel, HasColor, HasIcon
         return match ($this) {
             self::PENDING => 'warning',
             self::REJECTED => 'danger',
-            self::APPROVED => 'success'
+            self::APPROVED => 'success',
+            self::DRAFT => 'Draft',
         };
     }
 
@@ -35,7 +38,8 @@ enum Status: string implements HasLabel, HasColor, HasIcon
         return match ($this) {
             self::PENDING => 'heroicon-m-pencil',
             self::REJECTED => 'heroicon-o-x-mark',
-            self::APPROVED => 'heroicon-m-check'
+            self::APPROVED => 'heroicon-m-check',
+            self::DRAFT => 'heroicon-o-document-duplicate',
         };
     }
 

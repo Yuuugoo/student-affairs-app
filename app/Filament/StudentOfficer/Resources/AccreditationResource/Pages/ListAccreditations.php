@@ -3,8 +3,11 @@
 namespace App\Filament\StudentOfficer\Resources\AccreditationResource\Pages;
 
 use App\Filament\StudentOfficer\Resources\AccreditationResource;
+use App\Models\Accreditation;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 
 class ListAccreditations extends ListRecords
 {
@@ -12,8 +15,30 @@ class ListAccreditations extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        $userId = auth()->id();
+
+        $actions = [];
+
+        if (!Accreditation::where('prepared_by', $userId)->exists()) {
+            $actions[] = Actions\CreateAction::make()
+                ->label('Create Accreditation Request');
+        }
+
+        $isApproved = Accreditation::where('status', 'approved')->exists();
+
+        $buttonColor = $isApproved ? 'success' : 'gray'; 
+
+        $actions[] = Action::make('reaccreditation')
+            ->label('Create Re-accreditation Request')
+            ->color($buttonColor)
+            ->disabled(!$isApproved)
+            ->action(function () use ($isApproved) {
+                
+                if ($isApproved) {
+                    return redirect('/studentOfficer/reaccreditations/index');
+                }
+            });
+
+        return $actions;
     }
 }

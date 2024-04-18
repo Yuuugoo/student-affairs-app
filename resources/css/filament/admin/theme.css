@@ -1,0 +1,148 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@config './tailwind.config.js';
+
+@layer components {
+    .fi-sidebar {
+        @apply bg-custom-blue;
+    }
+
+    .fi-sidebar-header {
+        background-color: #fafafa;
+        @apply h-32;
+    }
+
+    .fi-body{
+        @apply bg-gray-200;
+    }
+
+    .fi-sidebar-group-items {
+        @apply space-y-5;
+        @apply my-5;
+    }
+
+    .fi-sidebar-item-button {
+        @apply w-72;
+        @apply h-12;
+        @apply hover:bg-green;
+        background-color: #434de6;
+    }
+
+    /* .fi-sidebar-nav{
+        @apply bg-indigo-800 ;
+    } */
+
+
+    /* .fi-sidebar-nav > .scrollbar-gutter{
+        @apply bg-indigo-500;
+    } */
+
+    .fi-sidebar-item-button:hover{
+        @apply text-white  hover:bg-blue-900 ;
+    }
+    
+    .fi-sidebar-item-active > .fi-sidebar-item-button {
+        @apply text-white bg-blue-500 dark:bg-blue-500;
+    }
+    
+    .fi-sidebar-group{
+        @apply text-white dark:text-white ;
+    }
+    
+    
+    .fi-sidebar {
+        
+        .fi-sidebar-item-icon{
+            color:white;
+        }
+
+        .fi-sidebar-item-label {
+          color: white;
+        }
+      }
+    .fi-sidebar-item-icon{
+        @apply text-white;
+    }
+    
+    .fi-main{
+        
+        
+        p.org-name{
+            color: black;
+            font-weight: bold;
+        }
+
+        div.fi-section-content {
+            color: black;
+        }
+
+        .fi-modal-window {
+            background-color: white;
+        }
+
+        div.fi-modal-content {
+            background-color: white;
+        }
+
+        div.fi-modal-footer {
+            background-color: white;
+        }
+
+        div.fi-modal-header {
+            background-color: white;
+        }
+
+        div.fi-ac {
+            color: #cbb26a; 
+        }
+
+
+        
+    }
+
+    
+
+    .text-xl {
+        color: black;
+    }
+
+    .fi-header {
+        background-image: url('/public/images/plm-header-try-1.png'); 
+        background-size: cover;
+        background-position: center;
+        margin-top: 0%;
+        padding-top: 60px;
+        padding-left: 20px;
+        padding-right: 50px;
+        padding-bottom: 20px;
+
+        .fi-header-heading {
+            color: white;
+        }
+    }
+
+    h1.fi-header-heading {
+        color: white;
+    }
+
+    a.fi-breadcrumbs-item-label {
+        color: white;
+    }
+
+    svg.fi-breadcrumbs-item-separator {
+        color: white;
+    }
+
+    .header.h1 {
+        background-image: url('/public/images/plm-header-try-1.png'); 
+        background-size: cover;
+        background-position: center;
+        margin-top: 0%;
+        padding-top: 60px;
+        padding-left: 20px;
+        padding-right: 50px;
+        padding-bottom: 20px;
+        color: white;
+    }
+
+
+}

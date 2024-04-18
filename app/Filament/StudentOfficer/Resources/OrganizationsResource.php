@@ -9,6 +9,8 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Column;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -27,22 +29,31 @@ class OrganizationsResource extends Resource
             ]);
     }
 
-    // public static function table(Table $table): Table
-    // {
-    //     return $table
-    //         ->columns([
-    //             //
-    //         ])
-    //         ->filters([
-    //             //
-    //         ])
-    //         ->actions([
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Column::make('org_name')->label('Organization Name'),
+            ])
+            ->filters([
+                Filter::make('approved_status')
+                        ->label('Status')
+                        ->query(function (Builder $query) {
+                            // Filtering based on a separate accreditation table
+                            
+                                $query->whereHas('Accreditation', function (Builder $query) {
+                                    $query->where('status', 'approved');
+                                });
+                        })
 
-    //         ])
-    //         ->bulkActions([
+            ])
+            ->actions([
+
+            ])
+            ->bulkActions([
         
-    //         ]);
-    // }
+            ]);
+    }
 
     public static function getRelations(): array
     {

@@ -4,8 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AnnouncementResource\Pages;
 use App\Models\Announcement;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,21 +17,16 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\MarkdownEditor;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Infolists\Infolist;
-use Rupadana\FilamentSwiper\Infolists\Components\SwiperImageEntry;
-use Filament\Infolists\Components\TextEntry;
-
+use Filament\Tables\Columns\BooleanColumn;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class AnnouncementResource extends Resource
 {
     protected static ?string $model = Announcement::class;
     protected static ?string $navigationLabel = 'Create Announcements';
-    protected static ?string $recordTitleAttribute = 'title'; 
+    protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
     protected static ?string $activeNavigationIcon = 'heroicon-o-document-text';
 
@@ -43,8 +36,10 @@ class AnnouncementResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                        TextInput::make('title')->required(),
-                        Textarea::make('description'),
+                        Forms\Components\TextInput::make('title')->required()
+                            ->live()
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                        Forms\Components\Textarea::make('description'),
                         MarkdownEditor::make('content')->required(),
                         Toggle::make('publish')->required()
                             ->onColor('warning')
@@ -52,7 +47,6 @@ class AnnouncementResource extends Resource
                                 $set('publish', $state);
                             }),
                         FileUpload::make('image_preview')->required()
-                            ->preserveFilenames()
                             ->image()
                             ->imageEditor(),
                     ])
@@ -62,7 +56,6 @@ class AnnouncementResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultPaginationPageOption(5)
             ->columns([
                 TextColumn::make('title')
                     ->wrap()
@@ -73,30 +66,19 @@ class AnnouncementResource extends Resource
                 TextColumn::make('content')
                     ->wrap(),
                 ImageColumn::make('image_preview')
-                    ->label('Announcement Preview')
                     ->size(110),
                 IconColumn::make('publish')
-                    ->label('Published')
                     ->boolean()
                     ->trueColor('warning')
                     ->falseColor('danger'),
+
             ])
             
             ->filters([
                 //
             ])
             ->actions([
-                EditAction::make()
-                    ->label('Update'),
-                Action::make('delete')
-                    ->label('Delete Announcement')
-                    ->icon('heroicon-o-trash')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->action(fn (Announcement $record) => $record->delete()),
-                ViewAction::make()
-                    ->label('View')
-                    ->color('success'),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -104,9 +86,6 @@ class AnnouncementResource extends Resource
                 ]),
             ]);
     }
-
-
-    
 
     public static function getRelations(): array
     {
@@ -118,7 +97,7 @@ class AnnouncementResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAnnouncements::route('/index'),
+            'index' => Pages\ListAnnouncements::route('/'),
             'create' => Pages\CreateAnnouncement::route('/create'),
             'edit' => Pages\EditAnnouncement::route('/{record}/edit'),
         ];

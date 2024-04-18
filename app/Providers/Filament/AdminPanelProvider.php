@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+
+use App\Filament\Widgets\AnnouncementsOverview;
+use App\Livewire\Swipget as LivewireSwipget;
+use App\Livewire\Widgets\Swipget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,7 +21,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
+use Rupadana\FilamentSwiper\Infolists\Components\Swiper;
+use Rupadana\FilamentSwiper\Widgets\SwiperWidget;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -25,16 +31,17 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->brandLogo(asset('images/plm-logo-header.svg'))
-            ->brandLogoHeight('3rem')
+            // ->brandLogo(asset('images/plm-logo-header.svg'))
+            // ->brandLogoHeight('3rem')
             // ->brandLogo(fn () => view('filament.admin.logo'))
             ->id('admin')
             ->path('admin')
             ->default()
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#c6ab5d',
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -42,7 +49,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                // Widgets\AccountWidget::class,
+                LivewireSwipget::class,
+                SwiperWidget::class
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -57,7 +65,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+                'admin.email',
+            ])
+            ->plugin(
+                FilamentFullCalendarPlugin::make()
+                    ->config([])
+                    ->plugins(['dayGrid', 'timeGrid'])
+                    
+            );
             
     }
    
