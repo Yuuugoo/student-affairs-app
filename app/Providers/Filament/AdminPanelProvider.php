@@ -52,6 +52,7 @@ class AdminPanelProvider extends PanelProvider
                 LivewireSwipget::class,
                 SwiperWidget::class
             ])
+            ->databaseNotifications()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
