@@ -33,7 +33,7 @@ class StudentOfficerPanelProvider extends PanelProvider
         return $panel
             // ->brandLogo(asset('images/plm-logo-header.svg'))
             // ->brandLogoHeight('3rem')
-            ->login()
+            // ->login()
             ->registration()
             ->profile(EditProfile::class)
             ->id('studentOfficer')
@@ -62,11 +62,11 @@ class StudentOfficerPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([
-                Authenticate::class,
+            // ->authMiddleware([
+            //     Authenticate::class,
                 
 
-            ])
+            // ])
             ->plugin(
                 FilamentFullCalendarPlugin::make()
                     ->config([])
