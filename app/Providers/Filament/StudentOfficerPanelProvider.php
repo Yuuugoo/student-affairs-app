@@ -34,6 +34,7 @@ class StudentOfficerPanelProvider extends PanelProvider
             // ->brandLogo(asset('images/plm-logo-header.svg'))
             // ->brandLogoHeight('3rem')
             ->login()
+            ->darkMode(false)
             ->registration()
             ->profile(EditProfile::class)
             ->id('studentOfficer')

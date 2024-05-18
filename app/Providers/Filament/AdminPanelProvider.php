@@ -2,13 +2,14 @@
 
 namespace App\Providers\Filament;
 
-
+use App\Filament\Pages\Profile;
 use App\Filament\Widgets\AnnouncementsOverview;
 use App\Livewire\Swipget as LivewireSwipget;
 use App\Livewire\Widgets\Swipget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Widgets;
 use Filament\Pages;
 use Filament\Panel;
@@ -34,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
             // ->brandLogo(asset('images/plm-logo-header.svg'))
             // ->brandLogoHeight('3rem')
             // ->brandLogo(fn () => view('filament.admin.logo'))
+            ->darkMode(false)
             ->id('admin')
             ->path('admin')
             ->default()

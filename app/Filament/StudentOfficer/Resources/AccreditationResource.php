@@ -8,6 +8,9 @@ use App\Filament\StudentOfficer\Resources\AccreditationResource\RelationManagers
 use App\Models\Accreditation;
 use App\Models\Reaccreditation;
 use App\Models\RequestsApproval;
+use App\Rules\UniqueRole;
+use App\Rules\UniqueRoles;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -15,6 +18,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -22,6 +26,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rule;
 
 class AccreditationResource extends Resource
 {
@@ -45,14 +50,39 @@ class AccreditationResource extends Resource
                 Repeater::make('list_members_officers')
                     ->schema([
                         TextInput::make('list_members_officers')
-                            ->label('Name'),
+                            ->label('Name')
+                            ->required(),
                         Select::make('role')
-                            ->options([
-                                'MEMBER' => 'Member',
-                                'PRESIDENT' => 'President',
-                                'VICE PRESIDENT' => 'Vice President',
-                            ]),
+                            ->options(function ($get) {
+                                $roles = collect($get('list_members_officers'))->pluck('role');
+                                
+                                $roleCounts = $roles->mapToGroups(function ($role) {
+                                    return [$role => 1];
+                                })->map(function ($items) {
+                                    return count($items);
+                                });
+
+                                $options = [
+                                    'PRESIDENT' => 'President' . ($roleCounts->get('PRESIDENT', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'VICE PRESIDENT INTERNAL' => 'Vice President Internal' . ($roleCounts->get('VICE PRESIDENT INTERNAL', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'VICE PRESIDENT EXTERNAL' => 'Vice President External' . ($roleCounts->get('VICE PRESIDENT EXTERNAL', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'SECRETARY' => 'Secretary' . ($roleCounts->get('SECRETARY', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'TREASURER' => 'Treasurer' . ($roleCounts->get('TREASURER', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'AUDITOR' => 'Auditor' . ($roleCounts->get('AUDITOR', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'PUBLIC RELATION OFFICER' => 'Public Relation Officer' . ($roleCounts->get('PUBLIC RELATION OFFICER', 0) >= 1 ? ' (Disabled)' : ''),
+                                    'MEMBER' => 'Member',
+                                ];
+
+                                return $options;
+                            })
+                            ->required(),
                     ])
+                    ->rules([
+                        function ($get) {
+                            return new UniqueRoles($get('list_members_officers'));
+                        }
+                    ])
+                    ->required()
                     ->addActionLabel('Add member')
                     ->columns(2)
                     ->grid(2)
@@ -86,15 +116,19 @@ class AccreditationResource extends Resource
                     ->label('Request for Accreditation')
                     ->preserveFilenames()
                     ->downloadable()
+                    ->required()
                     ->openable(),
                 FileUpload::make('const_by_laws')
                     ->label('Constitutional By Laws')
+                    ->required()
                     ->preserveFilenames(),
                 FileUpload::make('proof_of_acceptance')
                     ->label('Proof of Acceptance')
+                    ->required()
                     ->preserveFilenames(),
                 FileUpload::make('calendar_of_projects')
                     ->label('Calendar of Projects')
+                    ->required()
                     ->preserveFilenames(),
                 FileUpload::make('stud_enroll_rec')
                     ->label('Student Enrollement Record')
@@ -148,7 +182,6 @@ class AccreditationResource extends Resource
             ]);
     }
 
-    
     public static function getRelations(): array
     {
         return [

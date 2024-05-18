@@ -25,6 +25,7 @@ class StudentPanelProvider extends PanelProvider
         return $panel
             ->brandLogo(asset('images/plm-logo-header.svg'))
             ->brandLogoHeight('3rem')
+            ->darkMode(false)
             ->id('student')
             ->path('student')
             ->colors([
