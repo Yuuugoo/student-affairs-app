@@ -112,7 +112,7 @@ class RequestActResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -133,7 +133,6 @@ class RequestActResource extends Resource
         return [
             'index' => Pages\ListRequestActs::route('/index'),
             'create' => Pages\CreateRequestAct::route('/create'),
-            'edit' => Pages\EditRequestAct::route('/{record}/edit'),
             'view' => Pages\ViewActIn::route('/{record}'),
         ];
     }

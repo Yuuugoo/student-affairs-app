@@ -89,7 +89,7 @@ class RequestActOffResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -110,7 +110,6 @@ class RequestActOffResource extends Resource
         return [
             'index' => Pages\ListRequestActOffs::route('/index'),
             'create' => Pages\CreateRequestActOff::route('/create'),
-            'edit' => Pages\EditRequestActOff::route('/{record}/edit'),
             'view' => Pages\ViewActOff::route('/{record}'),
         ];
     }
