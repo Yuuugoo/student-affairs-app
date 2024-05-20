@@ -72,6 +72,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
                 'admin.email',
             ])
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('5s')
             ->plugin(
                 FilamentFullCalendarPlugin::make()
                     ->config([])

@@ -148,7 +148,12 @@
         color: white;
     }
 
-    
+    .fi-modal-window {
+        background-color: #fafafa;
+    }
 
+    .fi-modal-topbar {
+        background-color: #fafafa;
+    }
 
 }
