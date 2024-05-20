@@ -35,7 +35,7 @@ class RequestAct extends Component
         } elseif ($status === Status::APPROVED->value) {
             return 'ACCREDITED';
         } else {
-            return 'UNKNOWN';
+            return 'NOT ACCREDITED';
         }
     }
 }

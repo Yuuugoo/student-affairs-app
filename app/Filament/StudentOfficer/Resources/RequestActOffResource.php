@@ -98,13 +98,24 @@ class RequestActOffResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        if (!auth()->user()->is_admin) {
+            return $query->where('prepared_by', auth()->user()->id);
+        }
+
+        return $query;
+    }
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
+    
     public static function getPages(): array
     {
         return [

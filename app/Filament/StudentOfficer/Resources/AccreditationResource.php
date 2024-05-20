@@ -142,6 +142,7 @@ class AccreditationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            
             ->columns([
                 TextColumn::make('created_at')
                     ->sortable()
@@ -173,7 +174,7 @@ class AccreditationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -182,6 +183,16 @@ class AccreditationResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        if (!auth()->user()->is_admin) {
+            return $query->where('prepared_by', auth()->user()->id);
+        }
+
+        return $query;
+    }
 
     
     public static function getRelations(): array
