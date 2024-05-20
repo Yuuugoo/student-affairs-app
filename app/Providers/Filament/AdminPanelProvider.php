@@ -21,6 +21,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rupadana\FilamentSwiper\Infolists\Components\Swiper;
 use Rupadana\FilamentSwiper\Widgets\SwiperWidget;
@@ -43,6 +44,10 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => '#c6ab5d',
             ])
+            ->renderHook(
+                'panels::sidebar.nav.start',
+                fn (): string => Blade::render('@livewire(\'Sidebarprofile\')'),
+            )
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

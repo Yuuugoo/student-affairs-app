@@ -23,6 +23,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
@@ -42,6 +43,10 @@ class StudentOfficerPanelProvider extends PanelProvider
             ->colors([
                 'primary' => '#c6ab5d',
             ])
+            ->renderHook(
+                'panels::sidebar.nav.start',
+                fn (): string => Blade::render('@livewire(\'Sidebarprofile\')'),
+            )
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/StudentOfficer/Resources'), for: 'App\\Filament\\StudentOfficer\\Resources')
             ->discoverPages(in: app_path('Filament/StudentOfficer/Pages'), for: 'App\\Filament\\StudentOfficer\\Pages')
