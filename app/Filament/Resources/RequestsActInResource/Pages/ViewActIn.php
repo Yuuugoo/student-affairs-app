@@ -79,6 +79,7 @@ class ViewActIn extends ViewRecord
                                     ->icon('heroicon-s-check')
                                     ->color('success')
                                     ->label('Approve')
+                                    ->requiresConfirmation()
                                     ->action(function (RequestsActIn $record) {
                                         $record->status = 'approved';
                                         $record->save();
@@ -89,13 +90,13 @@ class ViewActIn extends ViewRecord
                             ->suffixAction(
                                 Action::make('rejected')
                                     ->button()
+                                    ->requiresConfirmation()
                                     ->icon('heroicon-o-x-mark')
                                     ->color('danger')
                                     ->label('Reject')
                                     ->action(function (RequestsActIn $record) {
                                         $record->status = 'rejected';
                                         $record->save();
-
                                         return redirect('/admin/requests-act-ins/index');
                                     })
                             )

@@ -39,7 +39,6 @@ class OrganizationsResource extends Resource
                 Filter::make('approved_status')
                         ->label('Status')
                         ->query(function (Builder $query) {
-                            // Filtering based on a separate accreditation table
                             
                                 $query->whereHas('Accreditation', function (Builder $query) {
                                     $query->where('status', 'approved');

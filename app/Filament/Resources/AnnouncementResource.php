@@ -17,6 +17,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
 use Filament\Tables\Columns\BooleanColumn;
 use Illuminate\Support\Str;
@@ -36,17 +37,18 @@ class AnnouncementResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('title')->required()
-                            ->live()
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                        Forms\Components\TextInput::make('title')->required(),
                         Forms\Components\Textarea::make('description'),
-                        MarkdownEditor::make('content')->required(),
+                        TextInput::make('content')
+                            ->label('Content Link')
+                            ->required(),
                         Toggle::make('publish')->required()
                             ->onColor('warning')
                             ->offColor('danger')->afterStateUpdated(function (Set $set, bool $state) {
                                 $set('publish', $state);
                             }),
                         FileUpload::make('image_preview')->required()
+                            ->preserveFilenames()
                             ->image()
                             ->imageEditor(),
                     ])
@@ -63,11 +65,9 @@ class AnnouncementResource extends Resource
                     ->weight(FontWeight::Bold),
                 TextColumn::make('description')
                     ->wrap(),
-                TextColumn::make('content')
-                    ->wrap(),
-                ImageColumn::make('image_preview')
-                    ->size(110),
+                ImageColumn::make('image_preview'),
                 IconColumn::make('publish')
+                    ->label('Published')
                     ->boolean()
                     ->trueColor('warning')
                     ->falseColor('danger'),

@@ -60,6 +60,7 @@ class ViewActOff extends ViewRecord
                             ->icon('heroicon-s-check')
                             ->color('success')
                             ->label('Approve')
+                            ->requiresConfirmation()
                             ->action(function (RequestsActOff $record) {
                                 $record->status = 'approved';
                                 $record->save();
@@ -73,6 +74,7 @@ class ViewActOff extends ViewRecord
                             ->icon('heroicon-o-x-mark')
                             ->color('danger')
                             ->label('Reject')
+                            ->requiresConfirmation()
                             ->action(function (RequestsActOff $record) {
                                 $record->status = 'rejected';
                                 $record->save();

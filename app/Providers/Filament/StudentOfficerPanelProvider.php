@@ -55,7 +55,7 @@ class StudentOfficerPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/StudentOfficer/Widgets'), for: 'App\\Filament\\StudentOfficer\\Widgets')
             ->widgets([
-                LivewireSwipget::class
+
             ])
             ->middleware([
                 EncryptCookies::class,

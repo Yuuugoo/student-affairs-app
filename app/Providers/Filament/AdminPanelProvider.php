@@ -56,8 +56,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                LivewireSwipget::class,
-                SwiperWidget::class
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('calendar_of_projects')->nullable();
             $table->string('cert_of_grades')->nullable();
             $table->string('stud_enroll_rec')->nullable();
-            $table->string('status')->default('pending');  
+            $table->string('status')->default('pending');
+            $table->string('remarks'); 
             $table->timestamps();
         });
     }

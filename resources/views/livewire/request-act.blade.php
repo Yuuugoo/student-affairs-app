@@ -8,15 +8,15 @@
 
   .btn-primary {
     --tw-bg-opacity: 1;
-    background-color: #cbb26a; 
-    border-color: #cbb26a; 
+    background-color: #cbb26a;
+    border-color: #cbb26a;
     color: white;
   }
 
   .btn:hover {
     --tw-bg-opacity: 0.9;
     background-color: #cbb26a;
-    border-color: #cbb26a; 
+    border-color: #cbb26a;
     color: white;
   }
 
@@ -46,6 +46,13 @@
     padding: 1rem;
   }
 
+  .text-green {
+    color: green;
+  }
+
+  .text-red {
+    color: red;
+  }
 </style>
 
 <div class="grid grid-cols-2 gap-4">
@@ -53,10 +60,19 @@
         <p class="org-name">{{ $orgName }}</p>
     </div>
     <div class="col-span-2 register-for-box">
-        <h1 class="text-xl font-bold">Accreditation Status:  </h1>
+        <h1 class="text-xl font-bold">
+            Accreditation Status: 
+            @if ($accreditationStatus === 'ACCREDITED')
+                <span class="text-green">{{ $accreditationStatus }}</span>
+            @elseif ($accreditationStatus === 'NOT ACCREDITED')
+                <span class="text-red">{{ $accreditationStatus }}</span>
+            @else
+                <span>{{ $accreditationStatus }}</span>
+            @endif
+        </h1>
         <span class="activity-for"></span>
-        <button id="offCampusButton" type="button" class="btn btn-primary" >Activity for Off-Campus</button>
-        <button id="inCampusButton" type="button" class="btn btn-primary" >Activity for In-Campus</button>
+        <button id="offCampusButton" type="button" class="btn btn-primary">Activity for Off-Campus</button>
+        <button id="inCampusButton" type="button" class="btn btn-primary">Activity for In-Campus</button>
     </div>
 </div>
 
@@ -72,9 +88,8 @@
     fetch('/studentOfficer/accreditations/index')
         .then(response => response.json())
         .then(data => {
-            const accreditationStatus = data.status; // Assuming the response contains the accreditation status
+            const accreditationStatus = data.status;
 
-            // Update the button states based on the accreditation status
             document.getElementById('offCampusButton').disabled = accreditationStatus === 'rejected';
             document.getElementById('inCampusButton').disabled = accreditationStatus === 'rejected';
         });

@@ -16,13 +16,17 @@ class RequestsActIn extends Model
     use HasFactory;
     protected $primaryKey = 'act_in_no';
     protected $fillable = [ 'act_in_no','csw', 'prepared_by', 'status', 'org_name', 'req_type', 
-                            'start_date', 'end_date', 'title', 'venues', 'participants_no'];
+                            'start_date', 'end_date', 'title', 'venues', 'participants_no', 'remarks'];
     protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
         'venues' => Venues::class
     ];
     
+    protected $attributes = [
+        'remarks' => 'no remarks',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'prepared_by');

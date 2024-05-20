@@ -17,13 +17,17 @@ class Accreditation extends Model
         'accred_no', 'prepared_by', 'org_name', 'request_for_accred',
         'list_members_officers', 'const_by_laws', 'proof_of_acceptance',
         'calendar_of_projects', 'cert_of_grades', 'stud_enroll_rec', 'status',
-        'req_type'
+        'req_type', 'remarks'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'list_members_officers' => 'array',
         'status' => Status::class,
+    ];
+
+    protected $attributes = [
+        'remarks' => 'no remarks',
     ];
 
 

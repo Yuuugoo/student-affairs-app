@@ -14,17 +14,18 @@ return new class extends Migration
         Schema::create('requests_act_ins', function (Blueprint $table) {
             $table->id('act_in_no');
             $table->unsignedBigInteger('prepared_by');
-            $table->string('req_type')->default('Activity In-Campus');  
+            $table->string('req_type')->default('Activity In-Campus');
             $table->foreign('prepared_by')->references('id')->on('users');
             $table->unsignedBigInteger('org_name_no');
             $table->foreign('org_name_no')->references('accred_no')->on('accreditations')->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->string('csw');
             $table->string('title');
-            $table->string('venues');
             $table->bigInteger('participants_no');
+            $table->string('venues');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->string('remarks'); 
             $table->timestamps();
         });
     }

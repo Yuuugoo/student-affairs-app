@@ -14,7 +14,7 @@ class Reaccreditation extends Model
     protected $fillable = ['reaccred_no','prepared_by', 'org_name_no', 'request_for_accred',
     'list_members_officers', 'const_by_laws', 'proof_of_acceptance',
     'calendar_of_projects', 'cert_of_grades', 'stud_enroll_rec', 'status',
-    'req_type'];
+    'req_type', 'remarks'];
 
     protected $casts =[
         'created_at' => 'datetime',
@@ -22,6 +22,9 @@ class Reaccreditation extends Model
         'list_members_officers' => 'array'
     ];
 
+    protected $attributes = [
+        'remarks' => 'no remarks',
+    ];
 
     public function user()
     {

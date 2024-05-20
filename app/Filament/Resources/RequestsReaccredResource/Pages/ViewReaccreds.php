@@ -56,6 +56,7 @@ class ViewReaccreds extends ViewRecord
                             ->icon('heroicon-s-check')
                             ->color('success')
                             ->label('Approve')
+                            ->requiresConfirmation()
                             ->action(function (Reaccreditation $record) {
                                 $record->status = 'approved';
                                 $record->save();
@@ -67,6 +68,7 @@ class ViewReaccreds extends ViewRecord
                         Action::make('rejected')
                             ->button()
                             ->icon('heroicon-o-x-mark')
+                            ->requiresConfirmation()
                             ->color('danger')
                             ->label('Reject')
                             ->action(function (Reaccreditation $record) {

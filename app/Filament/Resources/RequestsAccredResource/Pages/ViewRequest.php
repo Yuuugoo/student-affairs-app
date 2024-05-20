@@ -146,6 +146,7 @@ class ViewRequest extends ViewRecord
                                     ->icon('heroicon-s-check')
                                     ->color('success')
                                     ->label('Approve')
+                                    ->requiresConfirmation()
                                     ->action(function ($record) {
                                         $record->status = 'approved';
                                         $record->save();
@@ -158,6 +159,7 @@ class ViewRequest extends ViewRecord
                                     ->button()
                                     ->icon('heroicon-o-x-mark')
                                     ->color('danger')
+                                    ->requiresConfirmation()
                                     ->label('Reject')
                                     ->action(function ($record) {
                                         $record->status = 'rejected';
