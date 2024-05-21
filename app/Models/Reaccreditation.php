@@ -19,11 +19,8 @@ class Reaccreditation extends Model
     protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
-        'list_members_officers' => 'array'
-    ];
-
-    protected $attributes = [
-        'remarks' => 'no remarks',
+        'list_members_officers' => 'array',
+        'remarks' => 'array'
     ];
 
     public function user()

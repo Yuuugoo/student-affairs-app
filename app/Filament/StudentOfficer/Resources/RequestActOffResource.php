@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -28,6 +29,11 @@ class RequestActOffResource extends Resource
     protected static ?string $navigationLabel = 'Request For Activity In-Campus';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    private static $rejectionReasonsMap = [
+        'unavailable_venue' => 'The Selected Date and Venue was unavailable',
+        'incompletecsw' => 'Incomplete Completed Staff Works Document',
+    ];
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,11 +46,15 @@ class RequestActOffResource extends Resource
                     ]),
                 TextInput::make('venues')->required()
                     ->label('Event Venue'),
-                    
+                TextInput::make('participants_no')->required()
+                    ->label('Enter Number of Participants: ')
+                    ->integer()
+                    ->minValue(1),
                 FileUpload::make('csw')
                     ->label('Completed Staff Works (CSW)')
-                    ->preserveFilenames()
-                    ->required(),
+                    ->downloadable()
+                    ->required()
+                    ->openable(),
                 DateTimePicker::make('start_date')
                     ->label('Start Date of the Event')
                     ->required(),
@@ -82,11 +92,25 @@ class RequestActOffResource extends Resource
                             'prepared_by' => $user->name ?? null,
                         ];
                     }),
+                TextColumn::make('remarks')
+                    ->label('Remarks')
+                    ->getStateUsing(function (RequestsActOff $record) {
+                        $remarks = $record->remarks;
+                        if (is_array($remarks)) {
+                            $mappedRemarks = array_map(function ($code) {
+                                return RequestActOffResource::$rejectionReasonsMap[$code] ?? $code;
+                            }, $remarks);
+                            return implode(', ', $mappedRemarks);
+                        }
+                        return $remarks;
+                    })
+                    ->wrap()
+                    ->weight(FontWeight::Bold),
                 TextColumn::make('status')
                     ->badge()  
             ])
             ->filters([
-                //
+                
             ])
             ->actions([
                 

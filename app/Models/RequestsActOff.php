@@ -19,11 +19,7 @@ class RequestsActOff extends Model
     protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
-        'venues' => Venues::class
-    ];
-    
-    protected $attributes = [
-        'remarks' => 'no remarks',
+        'remarks' => 'array'
     ];
 
     public function user()

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ListAccreditations extends ListRecords
 {
     protected static string $resource = AccreditationResource::class;
-
+    
     protected function getHeaderActions(): array
     {
         $userId = auth()->id();

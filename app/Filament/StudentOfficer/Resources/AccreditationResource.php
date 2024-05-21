@@ -20,12 +20,14 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class AccreditationResource extends Resource
@@ -34,6 +36,14 @@ class AccreditationResource extends Resource
     protected static ?string $navigationLabel = 'Accreditation';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     
+    private static $rejectionReasonsMap = [
+        'missing_ser' => 'Missing Student Enrollment Record document.',
+        'missing_cog' => 'Missing Certification of Grades document.',
+        'inc_reqaccred' => 'Incomplete Request for Accreditation document.',
+        'inc_consbylaws' => 'Incomplete Constitutional By Laws document.',
+        'inc_proofaccept' => 'Incomplete Proof of Acceptance document.',
+        'inc_gpoa' => 'Incomplete Calendar of Projects document.',
+    ];
 
     public static function form(Form $form): Form
     {
@@ -114,28 +124,32 @@ class AccreditationResource extends Resource
                 ]),
                 FileUpload::make('request_for_accred')
                     ->label('Request for Accreditation')
-                    ->preserveFilenames()
                     ->downloadable()
                     ->required()
                     ->openable(),
                 FileUpload::make('const_by_laws')
                     ->label('Constitutional By Laws')
+                    ->downloadable()
                     ->required()
-                    ->preserveFilenames(),
+                    ->openable(),
                 FileUpload::make('proof_of_acceptance')
                     ->label('Proof of Acceptance')
+                    ->downloadable()
                     ->required()
-                    ->preserveFilenames(),
+                    ->openable(),
                 FileUpload::make('calendar_of_projects')
                     ->label('Calendar of Projects')
+                    ->downloadable()
                     ->required()
-                    ->preserveFilenames(),
+                    ->openable(),
                 FileUpload::make('stud_enroll_rec')
                     ->label('Student Enrollement Record')
-                    ->preserveFilenames(),
+                    ->downloadable()
+                    ->openable(),
                 FileUpload::make('cert_of_grades')
                     ->label('Certification of Grades')
-                    ->preserveFilenames(),    
+                    ->downloadable()
+                    ->openable(),
             ]);
     }
 
@@ -166,8 +180,23 @@ class AccreditationResource extends Resource
                         ];
                     })
                     ->searchable(),
+                TextColumn::make('remarks')
+                    ->label('Remarks')
+                    ->getStateUsing(function (Accreditation $record) {
+                        $remarks = $record->remarks;
+                        if (is_array($remarks)) {
+                            $mappedRemarks = array_map(function ($code) {
+                                return AccreditationResource::$rejectionReasonsMap[$code] ?? $code;
+                            }, $remarks);
+                            return implode(', ', $mappedRemarks);
+                        }
+                        return $remarks;
+                    })
+                    ->wrap()
+                    ->weight(FontWeight::Bold),
                 TextColumn::make('status')
-                    ->badge()
+                    ->badge(),
+
 
             ]) ->searchPlaceholder('Search Here')
             ->filters([

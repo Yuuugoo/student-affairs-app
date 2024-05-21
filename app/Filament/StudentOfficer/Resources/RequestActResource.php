@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -31,6 +32,11 @@ class RequestActResource extends Resource
     protected static ?string $title = 'Request For Activity In-Campus';
     protected static ?string $navigationLabel = 'Request For Activity In-Campus';
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
+
+    private static $rejectionReasonsMap = [
+        'unavailable_venue' => 'The Selected Date and Venue was already Booked',
+        'incompletecsw' => 'Incomplete Completed Staff Works Document',
+    ];
 
     public static function form(Form $form): Form
     {
@@ -53,8 +59,9 @@ class RequestActResource extends Resource
                     
                         FileUpload::make('csw')
                             ->label('Completed Staff Works (CSW)')
-                            ->preserveFilenames()
-                            ->required(),
+                            ->downloadable()
+                            ->required()
+                            ->openable(),
                 ]),
                 Section::make()
                     ->schema([
@@ -105,6 +112,20 @@ class RequestActResource extends Resource
                             'prepared_by' => $user->name ?? null,
                         ];
                     }),
+                TextColumn::make('remarks')
+                    ->label('Remarks')
+                    ->getStateUsing(function (RequestsActIn $record) {
+                        $remarks = $record->remarks;
+                        if (is_array($remarks)) {
+                            $mappedRemarks = array_map(function ($code) {
+                                return RequestActResource::$rejectionReasonsMap[$code] ?? $code;
+                            }, $remarks);
+                            return implode(', ', $mappedRemarks);
+                        }
+                        return $remarks;
+                    })
+                    ->wrap()
+                    ->weight(FontWeight::Bold),
                 TextColumn::make('status')
                     ->badge()   
             ])

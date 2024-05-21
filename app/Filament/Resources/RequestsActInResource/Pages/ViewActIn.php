@@ -5,6 +5,7 @@ namespace App\Filament\Resources\RequestsActInResource\Pages;
 use App\Filament\Resources\RequestsActInResource;
 use App\Models\RequestsActIn;
 use Filament\Actions;
+use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
@@ -80,8 +81,12 @@ class ViewActIn extends ViewRecord
                                     ->color('success')
                                     ->label('Approve')
                                     ->requiresConfirmation()
-                                    ->action(function (RequestsActIn $record) {
+                                    ->modalIcon('heroicon-o-document-check')
+                                    ->modalHeading('Approve Activity for In-Campus Request')
+                                    ->modalDescription('Are you sure you\'d like to approve this request?')
+                                    ->action(function ($record) {
                                         $record->status = 'approved';
+                                        $record->remarks = 'No Remarks';
                                         $record->save();
 
                                         return redirect('/admin/requests-act-ins/index');
@@ -90,15 +95,26 @@ class ViewActIn extends ViewRecord
                             ->suffixAction(
                                 Action::make('rejected')
                                     ->button()
-                                    ->requiresConfirmation()
                                     ->icon('heroicon-o-x-mark')
                                     ->color('danger')
+                                    ->requiresConfirmation()
+                                    ->modalHeading('Reject Activity for In-Campus Request')
+                                    ->modalDescription('Are you sure you\'d like to reject this request?')
                                     ->label('Reject')
-                                    ->action(function (RequestsActIn $record) {
+                                    ->action(function ($record, array $data) {
                                         $record->status = 'rejected';
+                                        $remarks = empty(array_filter($data['rejection_reasons'])) ? 'No Remarks' : array_keys(array_filter($data['rejection_reasons']));
+                                        $record->remarks = $remarks;
                                         $record->save();
+                                
                                         return redirect('/admin/requests-act-ins/index');
                                     })
+                                    ->form([
+                                        Checkbox::make('rejection_reasons.unavailable_venue')
+                                            ->label('The Selected Date and Venue was already Booked'),
+                                        Checkbox::make('rejection_reasons.incompletecsw')
+                                            ->label('Incomplete Completed Staff Works Document'),
+                                    ])
                             )
                 ])->grow(false),
 

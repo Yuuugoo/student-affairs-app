@@ -24,10 +24,7 @@ class Accreditation extends Model
         'created_at' => 'datetime',
         'list_members_officers' => 'array',
         'status' => Status::class,
-    ];
-
-    protected $attributes = [
-        'remarks' => 'no remarks',
+        'remarks' => 'array'
     ];
 
 
@@ -58,6 +55,6 @@ class Accreditation extends Model
             $accreditation->prepared_by = Auth::id();
         });
     }
-
+    
 
 }

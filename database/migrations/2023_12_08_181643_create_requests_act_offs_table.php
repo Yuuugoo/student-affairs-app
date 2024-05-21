@@ -25,7 +25,7 @@ return new class extends Migration
             $table->bigInteger('participants_no');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->string('remarks'); 
+            $table->json('remarks')->nullable(); 
             $table->timestamps();
         });
     }

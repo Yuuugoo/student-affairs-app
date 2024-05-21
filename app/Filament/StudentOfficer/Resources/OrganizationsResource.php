@@ -20,6 +20,7 @@ class OrganizationsResource extends Resource
     protected static ?string $model = Organizations::class;
     protected static ?string $navigationLabel = 'PLM Organizations';
     protected static ?string $navigationIcon = 'icomoon-tree';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

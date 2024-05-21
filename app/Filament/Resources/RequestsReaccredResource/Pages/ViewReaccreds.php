@@ -5,6 +5,7 @@ namespace App\Filament\Resources\RequestsReaccredResource\Pages;
 use App\Filament\Resources\RequestsReaccredResource;
 use App\Models\Reaccreditation;
 use Filament\Actions;
+use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\Section;
@@ -57,8 +58,12 @@ class ViewReaccreds extends ViewRecord
                             ->color('success')
                             ->label('Approve')
                             ->requiresConfirmation()
-                            ->action(function (Reaccreditation $record) {
+                            ->modalIcon('heroicon-o-document-check')
+                            ->modalHeading('Approve Re-Accreditation Request')
+                            ->modalDescription('Are you sure you\'d like to approve this request?')
+                            ->action(function ($record) {
                                 $record->status = 'approved';
+                                $record->remarks = 'All Files are Correct';
                                 $record->save();
 
                                 return redirect('/admin/requests-reaccreds/index');
@@ -66,17 +71,35 @@ class ViewReaccreds extends ViewRecord
                     )
                     ->suffixAction(
                         Action::make('rejected')
-                            ->button()
-                            ->icon('heroicon-o-x-mark')
-                            ->requiresConfirmation()
-                            ->color('danger')
-                            ->label('Reject')
-                            ->action(function (Reaccreditation $record) {
-                                $record->status = 'rejected';
-                                $record->save();
-
-                                return redirect('/admin/requests-reaccreds/index');
-                            })
+                                    ->button()
+                                    ->icon('heroicon-o-x-mark')
+                                    ->color('danger')
+                                    ->requiresConfirmation()
+                                    ->modalHeading('Reject Re-Accreditation Request')
+                                    ->modalDescription('Are you sure you\'d like to reject this request?')
+                                    ->label('Reject')
+                                    ->action(function ($record, array $data) {
+                                        $record->status = 'rejected';
+                                        $remarks = empty(array_filter($data['rejection_reasons'])) ? 'No Remarks' : array_keys(array_filter($data['rejection_reasons']));
+                                        $record->remarks = $remarks;
+                                        $record->save();
+                                
+                                        return redirect('/admin/requests-reaccreds/index');
+                                    })
+                                    ->form([
+                                        Checkbox::make('rejection_reasons.missing_ser')
+                                            ->label('Missing Student Enrollment Record document.'),
+                                        Checkbox::make('rejection_reasons.missing_cog')
+                                            ->label('Missing Certification of Grades document.'),
+                                        Checkbox::make('rejection_reasons.inc_reqaccred')
+                                            ->label('Incomplete Request for Accreditation document.'),
+                                        Checkbox::make('rejection_reasons.inc_consbylaws')
+                                            ->label('Incomplete Constitutional By Laws document.'),
+                                        Checkbox::make('rejection_reasons.inc_proofaccept')
+                                            ->label('Incomplete Proof of Acceptance document.'),
+                                        Checkbox::make('rejection_reasons.inc_gpoa')
+                                            ->label('Incomplete Calendar of Projects document.'),
+                                    ])
                     )
             ]),
             Fieldset::make('files')

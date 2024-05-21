@@ -20,11 +20,8 @@ class RequestsActIn extends Model
     protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
-        'venues' => Venues::class
-    ];
-    
-    protected $attributes = [
-        'remarks' => 'no remarks',
+        'venues' => Venues::class,
+        'remarks' => 'array'
     ];
 
     public function user()

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('cert_of_grades')->nullable();
             $table->string('stud_enroll_rec')->nullable();
             $table->string('status')->default('pending');
-            $table->string('remarks'); 
+            $table->json('remarks')->nullable(); 
             $table->timestamps();
         });
     }

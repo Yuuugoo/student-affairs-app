@@ -99,8 +99,6 @@
         
     }
 
-    
-
     .text-xl {
         color: black;
     }
@@ -152,8 +150,8 @@
         background-color: #fafafa;
     }
 
-    .fi-modal-topbar {
-        background-color: #fafafa;
+    .fi-btn-label{
+        color: black;
     }
 
 }
