@@ -9,6 +9,7 @@ use App\Models\InReqApproval;
 use App\Models\RequestsActIn;
 use App\Models\RequestsApproval;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
@@ -65,12 +66,12 @@ class RequestActResource extends Resource
                 ]),
                 Section::make()
                     ->schema([
-                        DateTimePicker::make('start_date')
+                        DatePicker::make('start_date')
                             ->label('Start Date of the Event')
                             ->required()
                             ->seconds(false)
                             ->live(onBlur: true),
-                        DateTimePicker::make('end_date')
+                        DatePicker::make('end_date')
                             ->label('End Date of the Event')
                             ->required()
                             ->seconds(false)
@@ -164,7 +165,6 @@ class RequestActResource extends Resource
     {
         return [
             'index' => Pages\ListRequestActs::route('/index'),
-            'create' => Pages\CreateRequestAct::route('/create'),
             'view' => Pages\ViewActIn::route('/{record}'),
         ];
     }

@@ -17,16 +17,14 @@ return new class extends Migration
             $table->foreign('prepared_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('org_name_no');
             $table->foreign('org_name_no')->references('accred_no')->on('accreditations')->onDelete('cascade');
-            $table->string('title');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->unsignedBigInteger('act_off_id')->nullable();
+            $table->foreign('act_off_id')->references('id')->on('requests_act_offs')->onDelete('cascade');
+            $table->unsignedBigInteger('act_in_id')->nullable();
+            $table->foreign('act_in_id')->references('id')->on('requests_act_ins')->onDelete('cascade');
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('calendars');

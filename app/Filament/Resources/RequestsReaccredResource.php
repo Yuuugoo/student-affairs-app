@@ -44,7 +44,7 @@ class RequestsReaccredResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Date')
-                    ->date(),
+                    ->dateTime(),
                 TextColumn::make('org_name')
                     ->sortable()
                     ->searchable()
@@ -73,7 +73,9 @@ class RequestsReaccredResource extends Resource
                     ->badge(),
             
 
-        ]) ->searchPlaceholder('Search Here')
+        ])
+        ->defaultSort('created_at', 'asc') 
+        ->searchPlaceholder('Search Here')
         ->filters([
             //
         ])

@@ -25,6 +25,10 @@
         @apply h-12;
         @apply hover:bg-green;
         background-color: #434de6;
+
+        .booking_modal {
+            background-color: white;
+        }
     }
 
     /* .fi-sidebar-nav{
@@ -154,4 +158,11 @@
         color: black;
     }
 
+    .bg-white {
+        background-color: #fafafa;
+    }
+    
+    .fi-sidebar{
+        background-color: #434de6;
+    }
 }

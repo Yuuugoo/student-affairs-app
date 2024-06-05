@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 namespace App\Livewire;
 
+use Livewire\Component;
 use App\Filament\StudentOfficer\Resources\RequestActOffResource;
 use App\Filament\StudentOfficer\Resources\RequestActResource;
 use App\Models\Calendar;
@@ -11,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
-class CalendarWidget extends FullCalendarWidget
+class StudentCalendarWidget extends FullCalendarWidget
 {
     public Model | string | null $model = Calendar::class;
 
@@ -38,7 +39,7 @@ class CalendarWidget extends FullCalendarWidget
             
                             return [
                                 'id' => $event->id,
-                                'title' => "{$startTime} - {$accreditation->org_name} - {$event->title}",
+                                'title' => "{$event->title}",
                                 'url' => RequestActOffResource::getUrl(name: 'view', parameters: ['record' => $event]),
                                 'start' => Carbon::parse($event->start_date)->toDateTimeString(),
                                 'end' => Carbon::parse($event->end_date)->toDateTimeString(),
@@ -74,5 +75,4 @@ class CalendarWidget extends FullCalendarWidget
         'eventClick' => 'showEventDetails', 
       ];
     }
-
 }

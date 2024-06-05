@@ -15,7 +15,7 @@ class RequestsActOff extends Model
     protected $primaryKey = 'act_off_no';
 
     protected $fillable = ['act_off_no','csw', 'prepared_by', 'status', 'org_name', 'req_type',
-                            'start_date', 'end_date', 'title', 'venues', 'participants_no', 'remarks'];
+                            'start_date', 'end_date', 'title', 'venues', 'participants_no', 'remarks', 'maximum_capacity'];
     protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
@@ -45,9 +45,9 @@ class RequestsActOff extends Model
         });
     }
 
-    public function calendarEvents(): MorphMany
+    public function calendar()
     {
-        return $this->morphMany(Calendar::class, 'eventable');
+        return $this->belongsTo(Calendar::class);
     }
 
 }

@@ -36,9 +36,36 @@ enum Venues: string implements HasLabel
             self::PRG => 'PRMEC, Ground Floor',
             self::PR2 => 'PRMEC, 2nd floor',
             self::FAC => 'PLM Facade',
-
-
         };
     }
 
+    public function getMaxCapacity(): int
+    {
+        return match ($this) {
+            self::JAA => 459,
+            self::BTB => 120,
+            self::FOH => 80,
+            self::ACC => 50,
+            self::EVR => 60,
+            self::BVR => 112,
+            self::UGY => 820,
+            self::UAC => 1150,
+            self::TBF => 8000,
+            self::MNG => 100,
+            self::PRG => 90,
+            self::PR2 => 120,
+            self::FAC => 150,
+        };
+    }
+
+    public static function options(): array
+    {
+        $options = [];
+
+        foreach (self::cases() as $venue) {
+            $options[$venue->value] = $venue->getLabel();
+        }
+
+        return $options;
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\StudentOfficer\Resources\RequestActResource\Pages;
 
 use App\Filament\StudentOfficer\Resources\RequestActResource;
+use App\Livewire\BookingCalendarWidget;
 use App\Livewire\CalendarWidget;
 use App\Models\User;
 use Filament\Actions;
@@ -24,7 +25,7 @@ class CreateRequestAct extends CreateRecord
     protected function getHeaderWidgets(): array
     {
         return [
-            CalendarWidget::class,
+            
         ];
     }
 
@@ -36,6 +37,7 @@ class CreateRequestAct extends CreateRecord
             $this->sendNotification($admin);
         }
     }
+    
 
     protected function sendNotification($recipient)
     {

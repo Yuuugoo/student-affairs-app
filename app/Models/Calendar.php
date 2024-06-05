@@ -42,5 +42,15 @@ class Calendar extends Model
         });
     }
 
+    public function requestsActIns()
+    {
+        return $this->hasMany(RequestsActIn::class, 'calendar_id');
+    }
+
+    public function requestsActOffs()
+    {
+        return $this->hasMany(RequestsActOff::class, 'calendar_id');
+    }
+
 
 }

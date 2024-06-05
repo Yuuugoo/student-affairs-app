@@ -53,6 +53,12 @@
   .text-red {
     color: red;
   }
+
+  .btn.disabled {
+    background-color: #cccccc;
+    border-color: #cccccc;
+    
+  }
 </style>
 
 <div class="grid grid-cols-2 gap-4">
@@ -64,25 +70,41 @@
             Accreditation Status: 
             @if ($accreditationStatus === 'ACCREDITED')
                 <span class="text-green">{{ $accreditationStatus }}</span>
-            @elseif ($accreditationStatus === 'NOT ACCREDITED')
-                <span class="text-red">{{ $accreditationStatus }}</span>
             @else
-                <span>{{ $accreditationStatus }}</span>
+                <span class="text-red">{{ $accreditationStatus }}</span>
             @endif
         </h1>
         <span class="activity-for"></span>
-        <button id="offCampusButton" type="button" class="btn btn-primary">Activity for Off-Campus</button>
-        <button id="inCampusButton" type="button" class="btn btn-primary">Activity for In-Campus</button>
+        <button 
+            id="offCampusButton" 
+            type="button" 
+            class="btn btn-primary {{ $accreditationStatus !== 'ACCREDITED' ? 'disabled' : '' }}"
+            {{ $accreditationStatus !== 'ACCREDITED' ? 'disabled' : '' }}
+        >
+            Activity for Off-Campus
+        </button>
+        <button 
+            id="inCampusButton" 
+            type="button" 
+            class="btn btn-primary {{ $accreditationStatus !== 'ACCREDITED' ? 'disabled' : '' }}"
+            {{ $accreditationStatus !== 'ACCREDITED' ? 'disabled' : '' }}
+        >
+            Activity for In-Campus
+        </button>
     </div>
 </div>
 
 <script>
     document.getElementById('offCampusButton').addEventListener('click', function() {
-        window.location.href = '/studentOfficer/request-act-offs/index';
+        if (!this.disabled) {
+            window.location.href = '/studentOfficer/request-act-offs/index';
+        }
     });
 
     document.getElementById('inCampusButton').addEventListener('click', function() {
-        window.location.href = '/studentOfficer/request-acts/index';
+        if (!this.disabled) {
+            window.location.href = '/studentOfficer/request-acts/index';
+        }
     });
 
     fetch('/studentOfficer/accreditations/index')
@@ -90,7 +112,9 @@
         .then(data => {
             const accreditationStatus = data.status;
 
-            document.getElementById('offCampusButton').disabled = accreditationStatus === 'rejected';
-            document.getElementById('inCampusButton').disabled = accreditationStatus === 'rejected';
+            if (accreditationStatus === 'rejected') {
+                document.getElementById('offCampusButton').disabled = true;
+                document.getElementById('inCampusButton').disabled = true;
+            }
         });
 </script>

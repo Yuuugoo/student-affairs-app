@@ -27,19 +27,14 @@ class ListRequestActs extends ListRecords
         })];
 
         $isApproved = Accreditation::where('status', 'approved')->exists();
-
+        $redirectUrl = $isApproved ? '/studentOfficer/booking-calendar' : '/studentOfficer/booking-calendar';
         $buttonColor = $isApproved ? 'info' : 'gray'; 
 
         $actions[] = CreateAction::make('reqactin')
             ->label('Create Request')
             ->color($buttonColor)
             ->disabled(!$isApproved)
-            ->action(function () use ($isApproved) {
-                
-                if ($isApproved) {
-                    return redirect('/studentOfficer/request-act-offs/index');
-                }
-            });
+            ->url($redirectUrl);
 
         return $actions;
     }

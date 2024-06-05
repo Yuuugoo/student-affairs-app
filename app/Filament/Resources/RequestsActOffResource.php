@@ -36,7 +36,7 @@ class RequestsActOffResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Date')
-                    ->date(),
+                    ->dateTime(),
                 TextColumn::make('org_name')
                     ->sortable()
                     ->searchable()
@@ -59,6 +59,7 @@ class RequestsActOffResource extends Resource
                 TextColumn::make('status')
                     ->badge()  
             ])
+            ->defaultSort('created_at', 'asc')
             ->filters([
                 //
             ])

@@ -37,8 +37,9 @@ class Accreditation extends Model
         return $this->hasOne(Reaccreditation::class, 'org_name_no');
     }
 
-    public function requestactin(){
-        return $this->hasOne(RequestsActIn::class, 'org_name_no');
+    public function requestactin()
+    {
+        return $this->hasOne(RequestsActIn::class, 'org_name_no', 'accred_no');
     }
 
     public function requestactoff(){

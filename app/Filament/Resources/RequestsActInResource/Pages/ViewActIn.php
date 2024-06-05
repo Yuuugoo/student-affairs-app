@@ -60,7 +60,15 @@ class ViewActIn extends ViewRecord
                         TextEntry::make('venues')
                             ->label('Event Venue:'),
                         TextEntry::make('start_date')
-                            ->label('Start Date of the Event:'),
+                            ->label('Start Date of the Event:')
+                            ->formatStateUsing(function ($state) {
+                                
+                                if ($state instanceof \Carbon\Carbon) {
+                                    return $state->format('Y-m-d g:i A');
+                                }
+                                
+                                return $state;
+                            }),
                         TextEntry::make('end_date')
                             ->label('End Date of the Event:'),
                         TextEntry::make('participants_no')
@@ -68,6 +76,22 @@ class ViewActIn extends ViewRecord
                     ]),
         
             ]),
+            Fieldset::make('files')
+                    ->label('Files Submitted')
+                    ->schema([
+                        TextEntry::make('csw')
+                            ->label('Request for Accreditation')
+                            ->suffixAction(
+                                Action::make('download')
+                                    ->label('View')
+                                    ->button()
+                                    ->icon('heroicon-s-eye')
+                                    ->url(function (RequestsActIn $record) {
+                                        return Storage::url($record->csw);
+                                    })
+                            ),
+                    ])
+            ])->from('2xl'),
             Section::make('Status')
                 ->label('Status')
                 ->schema([
@@ -118,22 +142,6 @@ class ViewActIn extends ViewRecord
                             )
                 ])->grow(false),
 
-            ])->from('2xl'),
-            Fieldset::make('files')
-                    ->label('Files Submitted')
-                    ->schema([
-                        TextEntry::make('csw')
-                            ->label('Request for Accreditation')
-                            ->suffixAction(
-                                Action::make('download')
-                                    ->label('View')
-                                    ->button()
-                                    ->icon('heroicon-s-eye')
-                                    ->url(function (RequestsActIn $record) {
-                                        return Storage::url($record->csw);
-                                    })
-                            ),
-                    ])
-        ]);    
+            ]);    
     }
 }

@@ -18,8 +18,6 @@ class CalendarWidgetAdmin extends FullCalendarWidget
     public function fetchEvents(array $fetchInfo): array
     {
         
-
-
         $events = [];
 
         $requestActOffEvents = RequestsActOff::where('start_date', '>=', $fetchInfo['start'])
@@ -51,7 +49,7 @@ class CalendarWidgetAdmin extends FullCalendarWidget
             
                             return [
                                 'id' => $event->id,
-                                'title' => "{$startTime} - {$accreditation->org_name} - {$event->title}",
+                                'title' => "{$event->title}",
                                 'url' => RequestsActInResource::getUrl(name: 'view', parameters: ['record' => $event]),
                                 'start' => Carbon::parse($event->start_date)->toDateTimeString(),
                                 'end' => Carbon::parse($event->end_date)->toDateTimeString(),
