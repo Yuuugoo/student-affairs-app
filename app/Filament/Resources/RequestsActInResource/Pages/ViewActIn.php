@@ -4,6 +4,7 @@ namespace App\Filament\Resources\RequestsActInResource\Pages;
 
 use App\Filament\Resources\RequestsActInResource;
 use App\Models\RequestsActIn;
+use App\Models\StudAffairsRequestsactins;
 use Filament\Actions;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\Actions\Action;
@@ -39,7 +40,7 @@ class ViewActIn extends ViewRecord
                             ->label('Date Submitted:'),
                         TextEntry::make('org_name_no')
                             ->label('Organization Name:')
-                            ->getStateUsing(function (RequestsActIn $record) {
+                            ->getStateUsing(function (StudAffairsRequestsactins $record) {
                                 $org = $record-> accreditation;
 
                                 return [
@@ -48,7 +49,7 @@ class ViewActIn extends ViewRecord
                         }),
                         TextEntry::make('prepared_by')
                             ->label('Submitted By:')
-                            ->getStateUsing(function (RequestsActIn $record) {
+                            ->getStateUsing(function (StudAffairsRequestsactins $record) {
                                 $user = $record->user;
                                 return [
                                     'prepared_by' => $user->name ?? null,
@@ -86,7 +87,7 @@ class ViewActIn extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (RequestsActIn $record) {
+                                    ->url(function (StudAffairsRequestsactins $record) {
                                         return Storage::url($record->csw);
                                     })
                             ),

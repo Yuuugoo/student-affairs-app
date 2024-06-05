@@ -5,6 +5,7 @@ namespace App\Filament\StudentOfficer\Resources;
 use App\Filament\StudentOfficer\Resources\CalendarResource\Pages;
 use App\Filament\StudentOfficer\Resources\CalendarResource\RelationManagers;
 use App\Models\Calendar;
+use App\Models\StudAffairsCalendar;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,8 +18,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
     class CalendarResource extends Resource
     {
-        protected static ?string $model = Calendar::class;
+        protected static ?string $model = StudAffairsCalendar::class;
         protected static ?string $navigationLabel = 'Calendar of Activities';
+        
         protected static ?string $navigationIcon = 'heroicon-m-calendar-days';
 
         public static function form(Form $form): Form

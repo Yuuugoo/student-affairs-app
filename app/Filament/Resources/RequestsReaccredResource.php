@@ -6,6 +6,7 @@ use App\Filament\Resources\RequestsReaccredResource\Pages;
 use App\Filament\Resources\RequestsReaccredResource\RelationManagers;
 use App\Models\Reaccreditation;
 use App\Models\RequestsReaccred;
+use App\Models\StudAffairsReaccreditations;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestsReaccredResource extends Resource
 {
-    protected static ?string $model = Reaccreditation::class;
+    protected static ?string $model = StudAffairsReaccreditations::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
     protected static ?string $navigationLabel = 'Requests';
@@ -49,7 +50,7 @@ class RequestsReaccredResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Organization Name')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -61,7 +62,7 @@ class RequestsReaccredResource extends Resource
                     ->label('Request Type'),
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $user = $record->user;
                     
                         return [

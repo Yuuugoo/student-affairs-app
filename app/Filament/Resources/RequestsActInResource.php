@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RequestsActInResource\Pages;
 use App\Filament\Resources\RequestsActInResource\RelationManagers;
 use App\Models\RequestsActIn;
+use App\Models\StudAffairsRequestsactins;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestsActInResource extends Resource
 {
-    protected static ?string $model = RequestsActIn::class;
+    protected static ?string $model = StudAffairsRequestsactins::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -41,7 +42,7 @@ class RequestsActInResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Organization Name')
-                    ->getStateUsing(function (RequestsActIn $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactins $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -50,7 +51,7 @@ class RequestsActInResource extends Resource
                     }),  
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (RequestsActIn $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactins $record) {
                         $user = $record->user;
                         return [
                             'prepared_by' => $user->name ?? null,

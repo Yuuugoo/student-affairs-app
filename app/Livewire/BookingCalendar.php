@@ -6,6 +6,8 @@ use App\Enums\Venues;
 use App\Models\Accreditation;
 use App\Models\RequestsActIn;
 use App\Models\RequestsActOff;
+use App\Models\StudAffairsAccreditations;
+use App\Models\StudAffairsRequestsactins;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -41,10 +43,9 @@ class BookingCalendar extends Component
 
     public function fetchBookings()
     {
-        $bookingsIn = RequestsActIn::all();
-        $bookingsOff = RequestsActOff::all();
+        $bookingsIn = StudAffairsRequestsactins::all();
 
-        $this->bookings = $bookingsIn->merge($bookingsOff)->map(function ($booking) {
+        $this->bookings = $bookingsIn->map(function ($booking) {
             return [
                 'title' => $booking->event_title,
                 'start' => Carbon::parse($booking->start_date),
@@ -99,7 +100,7 @@ class BookingCalendar extends Component
 
     public function fetchBookedVenues($date)
     {
-        $this->bookedVenues = RequestsActIn::whereDate('start_date', $date)
+        $this->bookedVenues = StudAffairsRequestsactins::whereDate('start_date', $date)
             ->orWhereDate('end_date', $date)
             ->get();
     }
@@ -112,12 +113,12 @@ class BookingCalendar extends Component
             'eventEndTime' => 'required|date_format:H:i|after:eventStartTime',
             'participantsNo' => 'required|integer|min:1',
             'eventVenue' => 'required|string|max:255',
-            'csw' => 'required|file|mimes:pdf,doc,docx|max:10240', // Validate the CSW file
+            'csw' => 'required|file|mimes:pdf,doc,docx|max:10240',
         ]);
 
-        $accreditation = Accreditation::where('prepared_by', Auth::id())->first();
+        $accreditation = StudAffairsAccreditations::where('prepared_by', Auth::id())->first();
 
-        $overlappingEvents = RequestsActIn::where('venues', $this->eventVenue)
+        $overlappingEvents = StudAffairsRequestsactins::where('venues', $this->eventVenue)
             ->whereDate('start_date', $this->selectedDate)
             ->where(function ($query) {
                 $query->whereBetween('start_date', [
@@ -140,7 +141,7 @@ class BookingCalendar extends Component
 
         $cswPath = $this->csw->store('public/csw');
 
-        RequestsActIn::create([
+        StudAffairsRequestsactins::create([
             'csw' => $cswPath,
             'status' => 'pending',
             'org_name' => $accreditation ? $accreditation->org_name : 'N/A',

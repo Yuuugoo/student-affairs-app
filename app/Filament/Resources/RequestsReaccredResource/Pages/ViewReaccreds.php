@@ -4,6 +4,7 @@ namespace App\Filament\Resources\RequestsReaccredResource\Pages;
 
 use App\Filament\Resources\RequestsReaccredResource;
 use App\Models\Reaccreditation;
+use App\Models\StudAffairsReaccreditations;
 use Filament\Actions;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\Actions\Action;
@@ -33,7 +34,7 @@ class ViewReaccreds extends ViewRecord
                     ->label('Date Submitted:'),
                 TextEntry::make('org_name')
                     ->label('Organization Name')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -42,7 +43,7 @@ class ViewReaccreds extends ViewRecord
                     }),  
                 TextEntry::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $user = $record->user;
                         return [
                             'prepared_by' => $user->name ?? null,
@@ -112,7 +113,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->request_for_accred);
                                     })
                             ),
@@ -123,7 +124,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->const_by_laws);
                                     })
                             ),
@@ -134,7 +135,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->proof_of_acceptance);
                                     })
                             ),
@@ -145,7 +146,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->calendar_of_projects);
                                     })
                             ),
@@ -156,7 +157,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->stud_enroll_rec);
                                     })
                             ),
@@ -167,7 +168,7 @@ class ViewReaccreds extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (Reaccreditation $record) {
+                                    ->url(function (StudAffairsReaccreditations $record) {
                                         return Storage::url($record->cert_of_grades);
                                     })
                             ),

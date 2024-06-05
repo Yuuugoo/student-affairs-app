@@ -5,11 +5,12 @@ namespace App\Livewire;
 use App\Models\Accreditation;
 use Livewire\Component;
 use App\Enums\Status;
+use App\Models\StudAffairsAccreditations;
 use Illuminate\Support\Facades\Log;
 
 class RequestAct extends Component
 {
-    protected static ?string $model = Accreditation::class;
+    protected static ?string $model = StudAffairsAccreditations::class;
 
     public function render()
     {

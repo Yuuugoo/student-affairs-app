@@ -5,24 +5,21 @@ namespace App\Models;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Enums\Venues;
 
-class RequestsActIn extends Model
+class StudAffairsReaccreditations extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'reaccred_no';
 
-    protected $primaryKey = 'act_in_no';
-    protected $fillable = [
-        'act_in_no', 'csw', 'prepared_by', 'status', 'org_name_no', 'req_type',
-        'start_date', 'end_date', 'title', 'venues', 'participants_no', 'remarks', 'max_capacity'
-    ];
+    protected $fillable = ['reaccred_no','prepared_by', 'org_name_no', 'request_for_accred',
+    'list_members_officers', 'const_by_laws', 'proof_of_acceptance',
+    'calendar_of_projects', 'cert_of_grades', 'stud_enroll_rec', 'status',
+    'req_type', 'remarks'];
 
-    protected $casts = [
+    protected $casts =[
         'created_at' => 'datetime',
         'status' => Status::class,
-        'venues' => Venues::class,
+        'list_members_officers' => 'array',
         'remarks' => 'array'
     ];
 
@@ -33,7 +30,7 @@ class RequestsActIn extends Model
 
     public function accreditation()
     {
-        return $this->belongsTo(Accreditation::class, 'org_name_no', 'accred_no');
+        return $this->belongsTo(StudAffairsAccreditations::class, 'org_name_no', 'accred_no');
     }
 
     protected static function booted()
@@ -41,16 +38,11 @@ class RequestsActIn extends Model
         static::creating(function ($request) {
             $request->prepared_by = Auth::id();
 
-            $accreditation = Accreditation::where('prepared_by', Auth::id())->first();
+            $accreditation = StudAffairsAccreditations::where('prepared_by', Auth::id())->first();
 
             if ($accreditation) {
                 $request->org_name_no = $accreditation->accred_no;
             }
         });
-    }
-
-    public function calendar()
-    {
-        return $this->belongsTo(Calendar::class);
     }
 }

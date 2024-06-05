@@ -4,6 +4,7 @@ namespace App\Filament\StudentOfficer\Resources\RequestActResource\Pages;
 
 use App\Filament\StudentOfficer\Resources\RequestActResource;
 use App\Models\RequestsActIn;
+use App\Models\StudAffairsRequestsactins;
 use Carbon\Carbon;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
@@ -47,7 +48,7 @@ class ViewActIn extends ViewRecord
                     ->schema([
                     TextEntry::make('org_name_no')
                         ->label('Organization Name:')
-                        ->getStateUsing(function (RequestsActIn $record) {
+                        ->getStateUsing(function (StudAffairsRequestsactins $record) {
                             $org = $record-> accreditation;
 
                             return [
@@ -56,7 +57,7 @@ class ViewActIn extends ViewRecord
                         }),
                     TextEntry::make('prepared_by')
                         ->label('Submitted By:')
-                        ->getStateUsing(function (RequestsActIn $record) {
+                        ->getStateUsing(function (StudAffairsRequestsactins $record) {
                             $user = $record->user;
                             return [
                                 'prepared_by' => $user->name ?? null,
@@ -68,18 +69,7 @@ class ViewActIn extends ViewRecord
                 ]),
             ])
                 
-
-
-
-
-
             ]);
 
-
-
-
-            
-            
-            
         }
 }

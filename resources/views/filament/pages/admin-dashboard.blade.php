@@ -108,7 +108,7 @@
   </style>
 
   @php
-    $announcements = \App\Models\Announcement::where('publish', true)->get();
+    $announcements = \App\Models\StudAffairsAnnouncement::where('publish', true)->get();
   @endphp
   <div class="featured-announcements-title">FEATURED ANNOUNCEMENTS:</div>
   <div class="swiper">

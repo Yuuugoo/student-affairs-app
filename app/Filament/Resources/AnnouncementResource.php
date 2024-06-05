@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AnnouncementResource\Pages;
 use App\Models\Announcement;
+use App\Models\StudAffairsAnnouncement;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,7 +26,7 @@ use Illuminate\View\View;
 
 class AnnouncementResource extends Resource
 {
-    protected static ?string $model = Announcement::class;
+    protected static ?string $model = StudAffairsAnnouncement::class;
     protected static ?string $navigationLabel = 'Create Announcements';
     protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';

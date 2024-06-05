@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Enums\Status;
-use App\Enums\Venues;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 
-class RequestsActOff extends Model
+class StudAffairsRequestsactoffs extends Model
 {
     use HasFactory;
     protected $primaryKey = 'act_off_no';
@@ -29,7 +27,7 @@ class RequestsActOff extends Model
 
     public function accreditation()
     {
-        return $this->belongsTo(Accreditation::class, 'org_name_no', 'accred_no');
+        return $this->belongsTo(StudAffairsAccreditations::class, 'org_name_no', 'accred_no');
     }
 
     protected static function booted()
@@ -37,17 +35,12 @@ class RequestsActOff extends Model
         static::creating(function ($request) {
             $request->prepared_by = Auth::id();
 
-            $accreditation = Accreditation::where('prepared_by', Auth::id())->first();
+            $accreditation = StudAffairsAccreditations::where('prepared_by', Auth::id())->first();
 
             if ($accreditation) {
                 $request->org_name_no = $accreditation->accred_no;
             }
         });
-    }
-
-    public function calendar()
-    {
-        return $this->belongsTo(Calendar::class);
     }
 
 }

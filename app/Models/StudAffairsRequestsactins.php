@@ -2,21 +2,27 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
+use App\Enums\Venues;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Calendar extends Model
+class StudAffairsRequestsactins extends Model
 {
     use HasFactory;
 
-
+    protected $primaryKey = 'act_in_no';
     protected $fillable = [
-        'id', 'prepared_by', 'start_date', 'end_date', 'title', 'org_name'
+        'act_in_no', 'csw', 'prepared_by', 'status', 'org_name_no', 'req_type',
+        'start_date', 'end_date', 'title', 'venues', 'participants_no', 'remarks', 'max_capacity'
     ];
 
-    protected $casts =[
+    protected $casts = [
         'created_at' => 'datetime',
+        'status' => Status::class,
+        'venues' => Venues::class,
+        'remarks' => 'array'
     ];
 
     public function user()
@@ -26,7 +32,7 @@ class Calendar extends Model
 
     public function accreditation()
     {
-        return $this->belongsTo(Accreditation::class, 'org_name_no', 'accred_no');
+        return $this->belongsTo(StudAffairsAccreditations::class, 'org_name_no', 'accred_no');
     }
 
     protected static function booted()
@@ -34,23 +40,12 @@ class Calendar extends Model
         static::creating(function ($request) {
             $request->prepared_by = Auth::id();
 
-            $accreditation = Accreditation::where('prepared_by', Auth::id())->first();
+            $accreditation = StudAffairsAccreditations::where('prepared_by', Auth::id())->first();
 
             if ($accreditation) {
                 $request->org_name_no = $accreditation->accred_no;
             }
         });
     }
-
-    public function requestsActIns()
-    {
-        return $this->hasMany(RequestsActIn::class, 'calendar_id');
-    }
-
-    public function requestsActOffs()
-    {
-        return $this->hasMany(RequestsActOff::class, 'calendar_id');
-    }
-
 
 }

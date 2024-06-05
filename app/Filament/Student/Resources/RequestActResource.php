@@ -6,6 +6,7 @@ use App\Filament\Student\Resources\RequestActResource\Pages;
 use App\Filament\Student\Resources\RequestActResource\RelationManagers;
 use App\Models\RequestAct;
 use App\Models\RequestsActIn;
+use App\Models\StudAffairsRequestsactins;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestActResource extends Resource
 {
-    protected static ?string $model = RequestsActIn::class;
+    protected static ?string $model = StudAffairsRequestsactins::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

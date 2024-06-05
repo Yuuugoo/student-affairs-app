@@ -5,6 +5,7 @@ namespace App\Filament\StudentOfficer\Resources;
 use App\Filament\StudentOfficer\Resources\ReaccreditationResource\Pages;
 use App\Filament\StudentOfficer\Resources\ReaccreditationResource\RelationManagers;
 use App\Models\Reaccreditation;
+use App\Models\StudAffairsReaccreditations;
 use App\Rules\UniqueRoles;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Log;
 
 class ReaccreditationResource extends Resource
 {
-    protected static ?string $model = Reaccreditation::class;
+    protected static ?string $model = StudAffairsReaccreditations::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -152,7 +153,7 @@ class ReaccreditationResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Organization Name')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -164,7 +165,7 @@ class ReaccreditationResource extends Resource
                     ->label('Request Type'),
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $user = $record->user;
                     
                         return [
@@ -174,7 +175,7 @@ class ReaccreditationResource extends Resource
                     ->searchable(),
                 TextColumn::make('remarks')
                     ->label('Remarks')
-                    ->getStateUsing(function (Reaccreditation $record) {
+                    ->getStateUsing(function (StudAffairsReaccreditations $record) {
                         $remarks = $record->remarks;
                         if (is_array($remarks)) {
                             $mappedRemarks = array_map(function ($code) {

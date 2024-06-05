@@ -5,6 +5,7 @@ namespace App\Filament\Student\Resources;
 use App\Filament\Student\Resources\RequestActOffResource\Pages;
 use App\Filament\Student\Resources\RequestActOffResource\RelationManagers;
 use App\Models\RequestsActOff;
+use App\Models\StudAffairsRequestsactoffs;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestActOffResource extends Resource
 {
-    protected static ?string $model = RequestsActOff::class;
+    protected static ?string $model = StudAffairsRequestsactoffs::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

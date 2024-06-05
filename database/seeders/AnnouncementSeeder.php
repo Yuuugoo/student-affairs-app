@@ -13,7 +13,7 @@ class AnnouncementSeeder extends Seeder
      */
     public function run(): void
     {   
-        DB::table('announcements')->insert([
+        DB::table('stud_affairs_announcements')->insert([
             [
                 'title' => 'CSS Member Onboarding',
                 'description' => 'Join us at our Volunteer Onboarding via MS Teams',

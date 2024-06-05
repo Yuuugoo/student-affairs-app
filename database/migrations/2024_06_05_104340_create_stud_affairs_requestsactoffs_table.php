@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests_act_ins', function (Blueprint $table) {
-            $table->id('act_in_no');
+        Schema::create('stud_affairs_requestsactoffs', function (Blueprint $table) {
+            $table->id('act_off_no');
+            $table->string('req_type')->default('Activity Off-Campus');  
             $table->unsignedBigInteger('prepared_by');
-            $table->string('req_type')->default('Activity In-Campus');
-            $table->unsignedBigInteger('calendar_id')->nullable();
-            $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');
-            $table->foreign('prepared_by')->references('id')->on('users');
             $table->unsignedBigInteger('org_name_no');
-            $table->foreign('org_name_no')->references('accred_no')->on('accreditations')->onDelete('cascade');
+            $table->foreign('org_name_no')->references('accred_no')->on('stud_affairs_accreditations')->onDelete('cascade');
             $table->string('status')->default('pending');
             $table->string('csw');
+            $table->foreign('prepared_by')->references('id')->on('users');
             $table->string('title');
+            $table->string('venues');
             $table->bigInteger('participants_no');
             $table->bigInteger('max_capacity');
-            $table->string('venues');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->json('remarks')->nullable(); 
@@ -38,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests_act_ins');
+        Schema::dropIfExists('stud_affairs_requestsactoffs');
     }
 };

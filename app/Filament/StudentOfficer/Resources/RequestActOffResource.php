@@ -6,6 +6,7 @@ use App\Filament\StudentOfficer\Resources\RequestActOffResource\Pages;
 use App\Filament\StudentOfficer\Resources\RequestActOffResource\RelationManagers;
 use App\Models\RequestActOff;
 use App\Models\RequestsActOff;
+use App\Models\StudAffairsRequestsactoffs;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RequestActOffResource extends Resource
 {
-    protected static ?string $model = RequestsActOff::class;
+    protected static ?string $model = StudAffairsRequestsactoffs::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $title = 'Request For Activity Off-Campus';
     protected static ?string $navigationLabel = 'Request For Activity In-Campus';
@@ -77,7 +78,7 @@ class RequestActOffResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Organization Name')
-                    ->getStateUsing(function (RequestsActOff $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactoffs $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -86,7 +87,7 @@ class RequestActOffResource extends Resource
                     }),  
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (RequestsActOff $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactoffs $record) {
                         $user = $record->user;
                         return [
                             'prepared_by' => $user->name ?? null,
@@ -94,7 +95,7 @@ class RequestActOffResource extends Resource
                     }),
                 TextColumn::make('remarks')
                     ->label('Remarks')
-                    ->getStateUsing(function (RequestsActOff $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactoffs $record) {
                         $remarks = $record->remarks;
                         if (is_array($remarks)) {
                             $mappedRemarks = array_map(function ($code) {

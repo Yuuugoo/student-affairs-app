@@ -4,6 +4,7 @@ namespace App\Filament\StudentOfficer\Resources\RequestActResource\Pages;
 
 use App\Filament\StudentOfficer\Resources\RequestActResource;
 use App\Models\Accreditation;
+use App\Models\StudAffairsAccreditations;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -26,7 +27,7 @@ class ListRequestActs extends ListRecords
             return redirect('/studentOfficer/request-act-page');
         })];
 
-        $isApproved = Accreditation::where('status', 'approved')->exists();
+        $isApproved = StudAffairsAccreditations::where('status', 'approved')->exists();
         $redirectUrl = $isApproved ? '/studentOfficer/booking-calendar' : '/studentOfficer/booking-calendar';
         $buttonColor = $isApproved ? 'info' : 'gray'; 
 

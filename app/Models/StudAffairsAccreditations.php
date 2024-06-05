@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Accreditation extends Model
+class StudAffairsAccreditations extends Model
 {
     use HasFactory;
 
@@ -34,20 +34,16 @@ class Accreditation extends Model
     }
 
     public function reaccreditation(){
-        return $this->hasOne(Reaccreditation::class, 'org_name_no');
+        return $this->hasOne(StudAffairsReaccreditations::class, 'org_name_no');
     }
 
     public function requestactin()
     {
-        return $this->hasOne(RequestsActIn::class, 'org_name_no', 'accred_no');
+        return $this->hasOne(StudAffairsRequestsactins::class, 'org_name_no', 'accred_no');
     }
 
     public function requestactoff(){
-        return $this->hasOne(RequestsActOff::class, 'org_name_no');
-    }
-
-    public function calendar(){
-        return $this->hasOne(Calendar::class, 'org_name_no');
+        return $this->hasOne(StudAffairsRequestsactoffs::class, 'org_name_no');
     }
 
     protected static function booted()
@@ -56,6 +52,4 @@ class Accreditation extends Model
             $accreditation->prepared_by = Auth::id();
         });
     }
-    
-
 }

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RequestsResource\Pages;
 use App\Filament\Resources\RequestsResource\RelationManagers;
 use App\Models\Accreditation;
+use App\Models\StudAffairsAccreditations;
 use Filament\Forms;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 class RequestsAccredResource extends Resource
 {
 
-    protected static ?string $model = Accreditation::class;
+    protected static ?string $model = StudAffairsAccreditations::class;
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
     protected static ?string $navigationLabel = 'Requests';
     protected static array $statuses = [
@@ -54,7 +55,7 @@ class RequestsAccredResource extends Resource
                     ->label('Request Type'),
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (Accreditation $record) {
+                    ->getStateUsing(function (StudAffairsAccreditations $record) {
                         $user = $record->user;
                     
                         return [

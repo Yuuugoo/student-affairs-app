@@ -11,21 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reaccreditations', function (Blueprint $table) {
-            $table->id('reaccred_no');
+        Schema::create('stud_affairs_accreditations', function (Blueprint $table) {
+            $table->id('accred_no');
             $table->unsignedBigInteger('prepared_by');
-            $table->foreign('prepared_by')->references('id')->on('users');
-            $table->unsignedBigInteger('org_name_no');
-            $table->foreign('org_name_no')->references('accred_no')->on('accreditations')->onDelete('cascade');
-            $table->string('req_type')->default('Reaccreditation');
+            $table->foreign('prepared_by')->references('id')->on('users')->onDelete('cascade');
+            $table->string('org_name');
             $table->string('request_for_accred')->nullable();
-            $table->json('list_members_officers');
+            $table->json('list_members_officers')->nullable();
             $table->string('const_by_laws')->nullable();
             $table->string('proof_of_acceptance')->nullable();
+            $table->string('req_type')->default('Accreditation');
             $table->string('calendar_of_projects')->nullable();
             $table->string('cert_of_grades')->nullable();
             $table->string('stud_enroll_rec')->nullable();
-            $table->string('status')->default('pending');  
+            $table->string('status')->default('pending');
             $table->json('remarks')->nullable(); 
             $table->timestamps();
         });
@@ -36,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reaccreditations');
+        Schema::dropIfExists('stud_affairs_accreditations');
     }
 };

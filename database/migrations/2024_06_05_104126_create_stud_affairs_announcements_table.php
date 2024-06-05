@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
-            $table->id('org_no');
-            $table->unsignedBigInteger('org_name_no');
-            $table->foreign('org_name_no')->references('accred_no')->on('accreditations');
-            $table->string('org_logo');
+        Schema::create('stud_affairs_announcements', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('description');
+            $table->string('content');
+            $table->string('image_preview');
+            $table->boolean('publish');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organizations');
+        Schema::dropIfExists('stud_affairs_announcements');
     }
 };

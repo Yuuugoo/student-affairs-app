@@ -4,6 +4,7 @@ namespace App\Filament\StudentOfficer\Resources\AccreditationResource\Pages;
 
 use App\Filament\StudentOfficer\Resources\AccreditationResource;
 use App\Models\Accreditation;
+use App\Models\StudAffairsAccreditations;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
@@ -19,12 +20,12 @@ class ListAccreditations extends ListRecords
 
         $actions = [];
 
-        if (!Accreditation::where('prepared_by', $userId)->exists()) {
+        if (!StudAffairsAccreditations::where('prepared_by', $userId)->exists()) {
             $actions[] = Actions\CreateAction::make()
                 ->label('Create Accreditation Request');
         }
 
-        $isApproved = Accreditation::where('status', 'approved')->exists();
+        $isApproved = StudAffairsAccreditations::where('status', 'approved')->exists();
 
         $buttonColor = $isApproved ? 'success' : 'gray'; 
 

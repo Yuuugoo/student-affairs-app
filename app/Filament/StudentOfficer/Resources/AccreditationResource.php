@@ -2,37 +2,27 @@
 
 namespace App\Filament\StudentOfficer\Resources;
 
-use App\Filament\Resources\RequestsResource;
 use App\Filament\StudentOfficer\Resources\AccreditationResource\Pages;
-use App\Filament\StudentOfficer\Resources\AccreditationResource\RelationManagers;
 use App\Models\Accreditation;
-use App\Models\Reaccreditation;
-use App\Models\RequestsApproval;
-use App\Rules\UniqueRole;
+use App\Models\StudAffairsAccreditations;
 use App\Rules\UniqueRoles;
-use Closure;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
+
 
 class AccreditationResource extends Resource
 {
-    protected static ?string $model = Accreditation::class;
+    protected static ?string $model = StudAffairsAccreditations::class;
     protected static ?string $navigationLabel = 'Accreditation';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     
@@ -172,7 +162,7 @@ class AccreditationResource extends Resource
                     ->label('Request Type'),
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (Accreditation $record) {
+                    ->getStateUsing(function (StudAffairsAccreditations $record) {
                         $user = $record->user;
                     
                         return [
@@ -182,7 +172,7 @@ class AccreditationResource extends Resource
                     ->searchable(),
                 TextColumn::make('remarks')
                     ->label('Remarks')
-                    ->getStateUsing(function (Accreditation $record) {
+                    ->getStateUsing(function (StudAffairsAccreditations $record) {
                         $remarks = $record->remarks;
                         if (is_array($remarks)) {
                             $mappedRemarks = array_map(function ($code) {

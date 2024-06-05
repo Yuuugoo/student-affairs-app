@@ -41,7 +41,7 @@ class OrganizationsResource extends Resource
                         ->label('Status')
                         ->query(function (Builder $query) {
                             
-                                $query->whereHas('Accreditation', function (Builder $query) {
+                                $query->whereHas('StudAffairsAccreditations', function (Builder $query) {
                                     $query->where('status', 'approved');
                                 });
                         })

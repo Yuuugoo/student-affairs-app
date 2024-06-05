@@ -6,6 +6,7 @@ use App\Filament\Resources\RequestsActOffResource;
 use App\Models\Accreditation;
 use App\Models\RequestsActIn;
 use App\Models\RequestsActOff;
+use App\Models\StudAffairsRequestsactoffs;
 use Filament\Actions;
 use Filament\Forms\Components\Checkbox;
 use Filament\Infolists\Components\Actions\Action;
@@ -37,7 +38,7 @@ class ViewActOff extends ViewRecord
                     ->label('Date Submitted:'),
                 TextEntry::make('org_name_no')
                     ->label('Organization Name:')
-                    ->getStateUsing(function (RequestsActOff $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactoffs $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -46,7 +47,7 @@ class ViewActOff extends ViewRecord
                     }),
                 TextEntry::make('prepared_by')
                     ->label('Submitted By:')
-                    ->getStateUsing(function (RequestsActOff $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactoffs $record) {
                         $user = $record->user;
                         return [
                             'prepared_by' => $user->name ?? null,
@@ -108,7 +109,7 @@ class ViewActOff extends ViewRecord
                                     ->label('View')
                                     ->button()
                                     ->icon('heroicon-s-eye')
-                                    ->url(function (RequestsActOff $record) {
+                                    ->url(function (StudAffairsRequestsactoffs $record) {
                                         return Storage::url($record->csw);
                                     })
                             ),

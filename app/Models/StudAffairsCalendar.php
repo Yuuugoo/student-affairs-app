@@ -2,25 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Reaccreditation extends Model
+class StudAffairsCalendar extends Model
 {
-    protected $primaryKey = 'reaccred_no';
+    use HasFactory;
 
-    protected $fillable = ['reaccred_no','prepared_by', 'org_name_no', 'request_for_accred',
-    'list_members_officers', 'const_by_laws', 'proof_of_acceptance',
-    'calendar_of_projects', 'cert_of_grades', 'stud_enroll_rec', 'status',
-    'req_type', 'remarks'];
+
+    protected $fillable = [
+        'id', 'prepared_by', 'start_date', 'end_date', 'title', 'org_name'
+    ];
 
     protected $casts =[
         'created_at' => 'datetime',
-        'status' => Status::class,
-        'list_members_officers' => 'array',
-        'remarks' => 'array'
     ];
 
     public function user()
@@ -30,7 +26,7 @@ class Reaccreditation extends Model
 
     public function accreditation()
     {
-        return $this->belongsTo(Accreditation::class, 'org_name_no', 'accred_no');
+        return $this->belongsTo(StudAffairsAccreditations::class, 'org_name_no', 'accred_no');
     }
 
     protected static function booted()
@@ -38,7 +34,7 @@ class Reaccreditation extends Model
         static::creating(function ($request) {
             $request->prepared_by = Auth::id();
 
-            $accreditation = Accreditation::where('prepared_by', Auth::id())->first();
+            $accreditation = StudAffairsAccreditations::where('prepared_by', Auth::id())->first();
 
             if ($accreditation) {
                 $request->org_name_no = $accreditation->accred_no;
@@ -46,6 +42,13 @@ class Reaccreditation extends Model
         });
     }
 
+    public function requestsActIns()
+    {
+        return $this->hasMany(StudAffairsRequestsactins::class, 'calendar_id');
+    }
 
-    
+    public function requestsActOffs()
+    {
+        return $this->hasMany(StudAffairsRequestsactoffs::class, 'calendar_id');
+    }
 }

@@ -6,6 +6,9 @@ use App\Filament\Resources\RequestsAccredResource;
 use App\Models\RequestsActIn;
 use App\Models\RequestsActOff;
 use App\Models\Reaccreditation;
+use App\Models\StudAffairsReaccreditations;
+use App\Models\StudAffairsRequestsactins;
+use App\Models\StudAffairsRequestsactoffs;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
 
@@ -15,9 +18,9 @@ class ListRequests extends ListRecords
     
     protected function getHeaderActions(): array
     {
-        $offCampusCount = RequestsActOff::where('status', '!=', 'approved')->count();
-        $inCampusCount = RequestsActIn::where('status', '!=', 'approved')->count();
-        $reaccreditationCount = Reaccreditation::where('status', '!=', 'approved')->count();
+        $offCampusCount = StudAffairsRequestsactoffs::where('status', '!=', 'approved')->count();
+        $inCampusCount = StudAffairsRequestsactins::where('status', '!=', 'approved')->count();
+        $reaccreditationCount = StudAffairsReaccreditations::where('status', '!=', 'approved')->count();
         
         $actions = [];
 

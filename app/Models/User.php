@@ -47,6 +47,6 @@ class User extends Authenticatable
     ];
 
     public function accreditation(){
-        return $this->hasOne(Accreditation::class, 'prepared_by');
+        return $this->hasOne(StudAffairsAccreditations::class, 'prepared_by');
     }
 }

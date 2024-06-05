@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Announcement extends Model
+class StudAffairsAnnouncement extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,4 @@ class Announcement extends Model
     protected $casts =[
         'created_at' => 'datetime',
     ];
-  
-
 }
-
-

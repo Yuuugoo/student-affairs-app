@@ -8,6 +8,7 @@ use App\Filament\StudentOfficer\Resources\RequestActResource\RelationManagers;
 use App\Models\InReqApproval;
 use App\Models\RequestsActIn;
 use App\Models\RequestsApproval;
+use App\Models\StudAffairsRequestsactins;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -28,7 +29,7 @@ use Illuminate\Validation\Rule;
 
 class RequestActResource extends Resource
 {
-    protected static ?string $model = RequestsActIn::class;
+    protected static ?string $model = StudAffairsRequestsactins::class;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $title = 'Request For Activity In-Campus';
     protected static ?string $navigationLabel = 'Request For Activity In-Campus';
@@ -98,7 +99,7 @@ class RequestActResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Organization Name')
-                    ->getStateUsing(function (RequestsActIn $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactins $record) {
                         $org = $record-> accreditation;
 
                         return [
@@ -107,7 +108,7 @@ class RequestActResource extends Resource
                     }),  
                 TextColumn::make('prepared_by')
                     ->label('Submitted By')
-                    ->getStateUsing(function (RequestsActIn $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactins $record) {
                         $user = $record->user;
                         return [
                             'prepared_by' => $user->name ?? null,
@@ -115,7 +116,7 @@ class RequestActResource extends Resource
                     }),
                 TextColumn::make('remarks')
                     ->label('Remarks')
-                    ->getStateUsing(function (RequestsActIn $record) {
+                    ->getStateUsing(function (StudAffairsRequestsactins $record) {
                         $remarks = $record->remarks;
                         if (is_array($remarks)) {
                             $mappedRemarks = array_map(function ($code) {

@@ -6,6 +6,9 @@ use App\Filament\Resources\RequestsActInResource;
 use App\Models\Calendar;
 use App\Models\RequestsActIn;
 use App\Models\RequestsActOff;
+use App\Models\StudAffairsCalendar;
+use App\Models\StudAffairsRequestsactins;
+use App\Models\StudAffairsRequestsactoffs;
 use Carbon\Carbon;
 use Filament\Widgets\Widget;
 use Illuminate\Database\Eloquent\Model;
@@ -13,18 +16,18 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class CalendarWidgetAdmin extends FullCalendarWidget
 {
-    public Model | string | null $model = Calendar::class;
+    public Model | string | null $model = StudAffairsCalendar::class;
 
     public function fetchEvents(array $fetchInfo): array
     {
         
         $events = [];
 
-        $requestActOffEvents = RequestsActOff::where('start_date', '>=', $fetchInfo['start'])
+        $requestActOffEvents = StudAffairsRequestsactoffs::where('start_date', '>=', $fetchInfo['start'])
             ->where('end_date', '<=', $fetchInfo['end'])
             ->where('status', 'Approved')
             ->get()
-            ->map(function (RequestsActOff $event) {
+            ->map(function (StudAffairsRequestsactoffs $event) {
                 return [
                     'id' => $event->id,
                     'title' => $event->title,
@@ -38,12 +41,12 @@ class CalendarWidgetAdmin extends FullCalendarWidget
             })->all();
 
 
-            $requestActInEvents = RequestsActIn::with('accreditation')
+            $requestActInEvents = StudAffairsRequestsactins::with('accreditation')
                         ->where('start_date', '>=', $fetchInfo['start'])
                         ->where('end_date', '<=', $fetchInfo['end'])
                         ->where('status', 'Approved')
                         ->get()
-                        ->map(function (RequestsActIn $event) {
+                        ->map(function (StudAffairsRequestsactins $event) {
                             $accreditation = $event->accreditation;
                             $startTime = Carbon::parse($event->start_date)->toTimeString();
             
